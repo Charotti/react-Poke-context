@@ -25,9 +25,9 @@ export default function Login() {
         <h1>Login</h1>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(setAuth)}>
         <input
-          type="password"
+          type="text"
           {...register("userName", { required: true, maxLength: 15 })}
         />
         <span>{errors.userName && <p>Username is required</p>}</span>
@@ -36,6 +36,15 @@ export default function Login() {
           {...register("password", { required: true, minLength: 6 })}
         />
         <span>{errors.password && <p>Enter your password</p>}</span>
+        {logState.isLogged ? (
+          <button className="button" type="submit">
+            Se connecter
+          </button>
+        ) : (
+          <button className="button" onclick={onSubmit}>
+            Se déconnecter
+          </button>
+        )}
       </form>
     </>
   );
