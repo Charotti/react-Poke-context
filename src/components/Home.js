@@ -1,5 +1,9 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import { useContext } from "react";
+import { UserContext } from "../App";
+import { Link } from "react-router-dom";
+
 function randomNumber() {
   return Math.floor(Math.random() * 875) + 1;
 }
@@ -7,6 +11,8 @@ function randomNumber() {
 export default function Home() {
   const [pokemon, setPokemon] = useState();
   const [randomPokemon, setRandomPokemon] = useState(1);
+  const userContext = useContext(UserContext);
+
   useEffect(() => {
     setTimeout(() => {
       fetch(`https://pokeapi.co/api/v2/pokemon/${randomPokemon}`)
@@ -24,18 +30,24 @@ export default function Home() {
     setRandomPokemon(randomNumber());
   };
 
-  return pokemon ? (
-    <>
-      <div>
-        <h1>Home</h1>
-      </div>
-      <p>id : {randomPokemon}</p>
-      <p>Name : {pokemon.name}</p>
-      <p>Height : {pokemon.height}</p>
-      <p>Weight :{pokemon.weight}</p>
-      <button onClick={handleClick}>Get a new pokemon</button>
-    </>
+  return userContext.isLogged ? (
+    pokemon ? (
+      <>
+        <div>
+          <h1>Home</h1>
+        </div>
+        <p>id : {randomPokemon}</p>
+        <p>Name : {pokemon.name}</p>
+        <p>Height : {pokemon.height}</p>
+        <p>Weight :{pokemon.weight}</p>
+        <button onClick={handleClick}>Get a new pokemon</button>
+      </>
+    ) : (
+      <button>
+        <div>Loading</div>
+      </button>
+    )
   ) : (
-    <div></div>
+    <Link to="/login">Login</Link>
   );
 }

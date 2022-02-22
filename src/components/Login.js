@@ -14,9 +14,9 @@ export default function Login() {
   const onSubmit = (data) => {
     history.push("/");
   };
-  const logState = useContext(UserContext);
+  const userContext = useContext(UserContext);
   const setAuth = () => {
-    logState.setIsLogged(true);
+    userContext.setIsLogged(true);
   };
 
   return (
@@ -36,7 +36,7 @@ export default function Login() {
           {...register("password", { required: true, minLength: 6 })}
         />
         <span>{errors.password && <p>Enter your password</p>}</span>
-        {logState.isLogged ? (
+        {userContext.isLogged ? (
           <button className="button" type="submit">
             Se connecter
           </button>
