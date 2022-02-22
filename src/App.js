@@ -1,13 +1,17 @@
-import React from "react";
 import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
-
+import { createContext, useState } from "react";
 import Home from "./components/Home.js";
 import Login from "./components/Login.js";
 import "./App.css";
-
-class App extends React.Component {
-  render() {
-    return (
+export const UserContext = createContext();
+export default function App() {
+  const [isLogged, setIsLogged] = useState(false);
+  const value = {
+    isLogged: isLogged,
+    setIsLogged: setIsLogged,
+  };
+  return (
+    <UserContext.Provider value={value}>
       <BrowserRouter>
         <div>
           <nav>
@@ -24,7 +28,6 @@ class App extends React.Component {
           </Switch>
         </div>
       </BrowserRouter>
-    );
-  }
+    </UserContext.Provider>
+  );
 }
-export default App;

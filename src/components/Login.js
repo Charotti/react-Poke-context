@@ -1,13 +1,23 @@
 import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { UserContext } from "../App";
+import { useContext } from "react";
 
-function Login() {
+export default function Login() {
+  const history = useHistory();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    history.push("/");
+  };
+  const logState = useContext(UserContext);
+  const setAuth = () => {
+    logState.setIsLogged(true);
+  };
 
   return (
     <>
@@ -16,12 +26,17 @@ function Login() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("userName", { required: true, maxLength: 15 })} />
+        <input
+          type="password"
+          {...register("userName", { required: true, maxLength: 15 })}
+        />
         <span>{errors.userName && <p>Username is required</p>}</span>
-        <input {...register("password", { required: true, minLength: 20 })} />
+        <input
+          type="password"
+          {...register("password", { required: true, minLength: 6 })}
+        />
         <span>{errors.password && <p>Enter your password</p>}</span>
       </form>
     </>
   );
 }
-export default Login;
